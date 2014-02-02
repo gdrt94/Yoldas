@@ -5,13 +5,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
 <head>
 <title>YolDaş</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
 <link rel="shortcut icon" href="images/favicon.ico" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/cufon-yui.js"></script>
 <script type="text/javascript" src="js/arial.js"></script>
 <script type="text/javascript" src="js/cuf_run.js"></script>
@@ -29,12 +31,6 @@ $().ready(function() {
             //form validation rules
             $("#register").validate({
                 rules: {
-                    username: {
-                        required: true,
-                        alphanumeric: true,
-                        minlength: 4,
-                        maxlength: 25
-                    },  
                     email: {
                         required: true,
                         email: true,
@@ -52,6 +48,12 @@ $().ready(function() {
                         minlength: 2,
                         maxlength: 25
                     },
+                    username: {
+                        required: true,
+                        alphanumeric: true,
+                        minlength: 4,
+                        maxlength: 25
+                    },  
                     sifre: {
                         required: true,
                         minlength: 6,
@@ -63,12 +65,6 @@ $().ready(function() {
                     }
                 },
                 messages: {
-                    username: {
-                        required: "İstifadəçi adınızı daxil edin",
-                        alphanumeric: "İstifadəçi adınız yalnız latın hərflərindən, rəqəmlərdən və alt xətdən ibarət ola bilər",
-                        minlength: "İstifadəçi adınız ən azı 4 simvoldan ibarət olmalıdır",
-                        maxlength: "İstifadəçi adınız ən çoxu 25 simvoldan ibarət ola bilər"
-                    },
                     email: {
                         required: "Emailinizi daxil edin",
                         email: "Düzgün email daxil edin",
@@ -86,6 +82,12 @@ $().ready(function() {
                         minlength: "Daxil etdiyiniz soyadı çox qısadır",
                         maxlength : "Daxil etdiyiniz soyadı çox uzundur"
                     },
+                    username: {
+                        required: "İstifadəçi adı daxil edin",
+                        alphanumeric: "İstifadəçi adınız yalnız latın hərflərindən, rəqəmlərdən və alt xətdən ibarət ola bilər",
+                        minlength: "İstifadəçi adınız ən azı 4 simvoldan ibarət olmalıdır",
+                        maxlength: "İstifadəçi adınız ən çoxu 25 simvoldan ibarət ola bilər"
+                    },                    
                     sifre: {
                         required: "Şifrə daxil edin",
                         minlength: "Şifrəniz ən azı 6 simvoldan ibarət olmalıdır",
@@ -106,7 +108,7 @@ $().ready(function() {
                     login: {
                         required: true,
                         minlength: 4,
-                        maxlength: 25
+                        maxlength: 50
                     },
                     parol: {
                         required: true,
@@ -129,8 +131,8 @@ $().ready(function() {
                 submitHandler: function(form) {
                     form.submit();
                 }
-            });
-        });
+            });	
+});
 </script>
 </head>
 <body>
@@ -141,16 +143,20 @@ $().ready(function() {
             <tr>
                 <td>
                     <div class="logo">
-                        <h1><a href="index.jsp"><span>Yol</span>Daş<br />
-                        <small>Azərbaycanda İlk &nbsp;maşın paylaşımı saytı</small></a></h1>
+                        <h1>
+                            <a href="index.jsp">
+                                <span>Yol</span><span id="qara">Daş</span><br />
+                                <small>Azərbaycanda İlk maşın paylaşımı saytı</small>
+                            </a>
+                        </h1>
                     </div>
                 </td>
                 <td>
-                    <h3 style="padding-left: 20px; color:#8fc400; font:normal 13px/1.2em Arial, Helvetica, sans-serif;">Eyni yol ilə gedən sürücülərlə sərnişinləri birləşdiririk!</h3>
+                    <h3 align="center" style="padding-left: 20px; color:#8fc400; font:normal 13px/1.2em Arial, Helvetica, sans-serif;"><br />Eyni yol ilə gedən sürücülərlə sərnişinləri<br /> birləşdiririk!</h3>
                 </td>
                 <td>
                     <a href="index.jsp">
-                        <img src="images/carpool.jpg" width="180" height="84" style="padding-left: 50px"/>
+                        <img src="images/carpool.jpg" width="180" height="84" style="padding-left: 110px; padding-top: 20px"/>
                     </a>
                 </td>
             </tr>
@@ -187,11 +193,11 @@ $().ready(function() {
       <div class="loginRegister">      
           <form id="register" class="formoid-default-green" style="font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;color:#005500;max-width:480px;min-width:150px" method="post" action="register">
             <div class="title"><h2>Qeydiyyatdan keç</h2></div>
-            <div class="element-input"  title="İstifadəçi adınız yalnız latın hərflərindən və rəqəmlərdən ibarət ola bilər"><input class="large" type="text" name="username" placeholder="İstifadəçi adınız" /></div>
             <div class="element-input"  title="Mövcud emailinizi daxil edin"><input class="large" type="text" name="email" placeholder="Emailiniz" /></div>
             <div class="element-input"  title="Əsl adınızı daxil edin"><input class="large" type="text" name="ad" placeholder="Adınız" /></div>
             <div class="element-input"  title="Əsl soyadınızı daxil edin"><input class="large" type="text" name="soyad" placeholder="Soyadınız" /></div>
-            <div class="element-password"  title="Etibarlı şifrə fikirləşin"><input id="sifre" class="large" type="password" name="sifre" value="" placeholder="Şifrəniz" /></div>
+            <div class="element-input"  title="İstifadəçi adınız yalnız latın hərflərindən, rəqəmlərdən və alt xətdən ibarət ola bilər"><input id="username" class="large" type="text" name="username" placeholder="İstifadəçi adınız" /></div>            
+            <div class="element-password"  title="Etibarlı şifrə seçin"><input id="sifre" class="large" type="password" name="sifre" value="" placeholder="Şifrəniz" /></div>
             <div class="element-password"  title="Şifrənizi yenidən daxil edin"><input class="large" type="password" name="tesdiqle" value="" placeholder="Şifrənizi yenidən daxil edin" /></div>
             <div class="submit"><input type="submit" value="Qeydiyyatı tamamla"/></div>
         </form>          

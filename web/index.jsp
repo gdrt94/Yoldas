@@ -36,32 +36,32 @@ $().ready(function() {
                         email: true,
                         maxlength: 50
                     },
-                    ad: {
+                    name: {
                         required: true,
                         lettersonly: true,
                         minlength: 2,
-                        maxlength : 25
+                        maxlength : 30
                     },
-                    soyad: {
+                    surname: {
                         required: true,
                         lettersonly: true,
                         minlength: 2,
-                        maxlength: 25
+                        maxlength: 30
                     },
                     username: {
                         required: true,
                         alphanumeric: true,
                         minlength: 4,
-                        maxlength: 25
+                        maxlength: 30
                     },  
-                    sifre: {
+                    password: {
                         required: true,
                         minlength: 6,
                         maxlength: 30
                     },
-                    tesdiqle: {
+                    passwordConfirmation: {
                         required: true,
-                        equalTo: "#sifre"
+                        equalTo: "#password"
                     }
                 },
                 messages: {
@@ -70,13 +70,13 @@ $().ready(function() {
                         email: "Düzgün email daxil edin",
                         maxlength: "Emailiniz çox uzundur"
                     },
-                    ad: {
+                    name: {
                         required: "Adınızı daxil edin",
                         lettersonly: "Adınız yalnız hərflərdən ibarət olmalıdır",
                         minlength: "Daxil etdiyiniz ad çox qısadır",
                         maxlength : "Daxil etdiyiniz ad çox uzundur"
                     },
-                    soyad: {
+                    surname: {
                         required: "Soyadınızı daxil edin",
                         lettersonly: "Soyadınız yalnız hərflərdən ibarət olmalıdır",
                         minlength: "Daxil etdiyiniz soyadı çox qısadır",
@@ -86,16 +86,16 @@ $().ready(function() {
                         required: "İstifadəçi adı daxil edin",
                         alphanumeric: "İstifadəçi adınız yalnız latın hərflərindən, rəqəmlərdən və alt xətdən ibarət ola bilər",
                         minlength: "İstifadəçi adınız ən azı 4 simvoldan ibarət olmalıdır",
-                        maxlength: "İstifadəçi adınız ən çoxu 25 simvoldan ibarət ola bilər"
+                        maxlength: "İstifadəçi adınız ən çoxu 30 simvoldan ibarət ola bilər"
                     },                    
-                    sifre: {
+                    password: {
                         required: "Şifrə daxil edin",
                         minlength: "Şifrəniz ən azı 6 simvoldan ibarət olmalıdır",
                         maxlength: "Şifrəniz ən çoxu 30 simvoldan ibarət ola bilər"
                     },
-                    tesdiqle:  {
+                    passwordConfirmation:  {
                         required: "Şifrənizi təkrar daxil edin",
-                        equalTo: "Daxil etdiyiniz şifrələr tutuşmurlar"       
+                        equalTo: "Daxil etdiyiniz şifrələr eyni olmalıdırlar"       
                     }
                 },
                 submitHandler: function(form) {
@@ -105,24 +105,24 @@ $().ready(function() {
             
             $("#login").validate({
                 rules: {
-                    login: {
+                    username: {
                         required: true,
                         minlength: 4,
                         maxlength: 50
                     },
-                    parol: {
+                    password: {
                         required: true,
                         minlength: 6,
                         maxlength: 30
                     }
                 },
                 messages: {
-                    login: {
+                    username: {
                         required: "İstifadəçi adı və ya emailinizi daxil edin",
                         minlength: "Belə istifadəçi mövcud deyil",
                         maxlength: "Belə istifadəçi mövcud deyil"
                     },
-                    parol: {
+                    password: {
                         required: "Şifrənizi daxil edin",
                         minlength: "Şifrənizi düzgün daxil edin",
                         maxlength: "Şifrənizi düzgün daxil edin"
@@ -191,15 +191,87 @@ $().ready(function() {
     <div class="body_resize">
       <div class="left">
       <div class="loginRegister">      
-          <form id="register" class="formoid-default-green" style="font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;color:#005500;max-width:480px;min-width:150px" method="post" action="register">
+          <form id="register" class="formoid-default-green" style="font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;color:#005500;max-width:480px;min-width:150px" method="post" action="cs?action=register">
             <div class="title"><h2>Qeydiyyatdan keç</h2></div>
-            <div class="element-input"  title="Mövcud emailinizi daxil edin"><input class="large" type="text" name="email" placeholder="Emailiniz" /></div>
-            <div class="element-input"  title="Əsl adınızı daxil edin"><input class="large" type="text" name="ad" placeholder="Adınız" /></div>
-            <div class="element-input"  title="Əsl soyadınızı daxil edin"><input class="large" type="text" name="soyad" placeholder="Soyadınız" /></div>
-            <div class="element-input"  title="İstifadəçi adınız yalnız latın hərflərindən, rəqəmlərdən və alt xətdən ibarət ola bilər"><input id="username" class="large" type="text" name="username" placeholder="İstifadəçi adınız" /></div>            
-            <div class="element-password"  title="Etibarlı şifrə seçin"><input id="sifre" class="large" type="password" name="sifre" value="" placeholder="Şifrəniz" /></div>
-            <div class="element-password"  title="Şifrənizi yenidən daxil edin"><input class="large" type="password" name="tesdiqle" value="" placeholder="Şifrənizi yenidən daxil edin" /></div>
+            <c:choose>
+                <c:when test="${not empty sessionScope.registrationErrors.email}">
+                    <div class="element-input"  title="Mövcud emailinizi daxil edin">
+                        <input class="large" type="text" name="email" value="${sessionScope.registrationForm.email}" placeholder="Emailiniz" />
+                    </div>
+                    <c:forEach var="err" items="${sessionScope.registrationErrors.email}">
+                        ${err} <br/>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <div class="element-input"  title="Mövcud emailinizi daxil edin">
+                        <input class="large" type="text" name="email" placeholder="Emailiniz" />
+                    </div>
+                </c:otherwise>
+            </c:choose>
+                    
+            <c:choose>
+                <c:when test="${not empty sessionScope.registrationErrors.name}">
+                    <div class="element-input"  title="Əsl adınızı daxil edin">
+                        <input class="large" type="text" name="name" value="${sessionScope.registrationForm.name}" placeholder="Adınız" />
+                    </div>
+                    <c:forEach var="err" items="${sessionScope.registrationErrors.name}">
+                        ${err} <br/>
+                    </c:forEach>              
+                </c:when>
+                <c:otherwise>
+                    <div class="element-input"  title="Əsl adınızı daxil edin">
+                        <input class="large" type="text" name="name" placeholder="Adınız" />
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
+            <c:choose>
+                <c:when test="${not empty sessionScope.registrationErrors.surname}">
+                    <div class="element-input"  title="Əsl soyadınızı daxil edin">
+                        <input class="large" type="text" name="surname" value="${sessionScope.registrationForm.surname}" placeholder="Soyadınız" />
+                    </div>
+                    <c:forEach var="err" items="${sessionScope.registrationErrors.surname}">
+                        ${err} <br/>
+                    </c:forEach>              
+                </c:when>
+                <c:otherwise>
+                    <div class="element-input"  title="Əsl soyadınızı daxil edin">
+                        <input class="large" type="text" name="surname" placeholder="Soyadınız" />
+                    </div>
+                </c:otherwise>
+            </c:choose>
+                        
+            <c:choose>
+                <c:when test="${not empty sessionScope.registrationErrors.username}">
+                    <div class="element-input"  title="İstifadəçi adınız yalnız latın hərflərindən, rəqəmlərdən və alt xətdən ibarət ola bilər">
+                        <input id="username" class="large" type="text" name="username" value="${sessionScope.registrationForm.username}" placeholder="İstifadəçi adınız" />
+                    </div> 
+                    <c:forEach var="err" items="${sessionScope.registrationErrors.username}">
+                        ${err} <br/>
+                    </c:forEach>              
+                </c:when>
+                <c:otherwise>
+                    <div class="element-input"  title="İstifadəçi adınız yalnız latın hərflərindən, rəqəmlərdən və alt xətdən ibarət ola bilər">
+                        <input id="username" class="large" type="text" name="username" placeholder="İstifadəçi adınız" />
+                    </div>            
+                </c:otherwise>
+            </c:choose>
+                                                
+            <div class="element-password"  title="Etibarlı şifrə seçin">
+                <input id="password" class="large" type="password" name="password" value="" placeholder="Şifrəniz" />
+            </div>
+            <c:if test="${not empty sessionScope.registrationErrors.password}">
+                <c:forEach var="err" items="${sessionScope.registrationErrors.password}">
+                    ${err} <br/>
+                </c:forEach>
+            </c:if>
+                                        
+            <div class="element-password"  title="Şifrənizi yenidən daxil edin">
+                <input class="large" type="password" name="passwordConfirmation" value="" placeholder="Şifrənizi yenidən daxil edin" />
+            </div>
+                    
             <div class="submit"><input type="submit" value="Qeydiyyatı tamamla"/></div>
+            
         </form>          
       </div>
       </div>
@@ -207,8 +279,8 @@ $().ready(function() {
       <div class="loginRegister">
         <form id="login" class="formoid-default-green" style="font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;color:#005500;max-width:300px;min-width:150px" method="post" action="login">
             <div class="title"><h2>Daxil ol</h2></div>
-            <div class="element-input" ><input class="large" type="text" name="login" placeholder="İstifadəçi adı və ya email" /></div>
-            <div class="element-password"  title="Şifrəniz"><input class="large" type="password" name="parol" value="" placeholder="Şifrə" /></div>
+            <div class="element-input" title="İstifadəçi adınızı və ya emailinizi daxil edin"><input class="large" type="text" name="username" placeholder="İstifadəçi adı və ya email" /></div>
+            <div class="element-password"  title="Şifrənizi daxil edin"><input class="large" type="password" name="password" value="" placeholder="Şifrə" /></div>
             <div class="submit"><input type="submit" value="Giriş"/></div>
         </form>
       </div>  

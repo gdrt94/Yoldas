@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.yoldas.service;
+package az.yoldas.service;
 
-import net.yoldas.database.RegistrationDao;
-import net.yoldas.domain.RegistrationForm;
+import az.yoldas.database.RegistrationDao;
+import az.yoldas.domain.RegistrationForm;
 
 /**
  *

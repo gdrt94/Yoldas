@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.yoldas.database;
+package az.yoldas.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import net.yoldas.domain.RegistrationForm;
-import net.yoldas.utility.EncryptionUtility;
+import az.yoldas.domain.RegistrationForm;
+import az.yoldas.utility.EncryptionUtility;
 
 /**
  *

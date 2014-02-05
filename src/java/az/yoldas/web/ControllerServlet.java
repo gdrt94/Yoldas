@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.yoldas.web;
+package az.yoldas.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,12 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import net.yoldas.database.DatabaseUtility;
-import net.yoldas.database.MySqlRegistrationDao;
-import net.yoldas.database.RegistrationDao;
-import net.yoldas.domain.RegistrationForm;
-import net.yoldas.service.DefaultRegistrationService;
-import net.yoldas.service.RegistrationService;
+import az.yoldas.database.DatabaseUtility;
+import az.yoldas.database.MySqlRegistrationDao;
+import az.yoldas.database.RegistrationDao;
+import az.yoldas.domain.RegistrationForm;
+import az.yoldas.service.DefaultRegistrationService;
+import az.yoldas.service.RegistrationService;
+import az.yoldas.domain.User;
 
 /**
  *
@@ -121,12 +122,12 @@ public class ControllerServlet extends HttpServlet {
                     boolean success = registrationService.register(form);
                     String registrationResult = "";
                     if(success) {
-                        registrationResult = "Qeydiyyatınız uğurla tamamlanmışdır";
+                        registrationResult = "Qeydiyyatınız uğurla tamamlanmışdır. Sağ paneldən sistemə daxil ola bilərsiniz";
                     } else {
                         registrationResult = "Qeydiyyatdan keçmək mümkün olmadı. Bir daha sınayın və ya administratorla əlaqə saxlayın";
                     }
                     
-                    RequestDispatcher rd = request.getRequestDispatcher("result.jsp");
+                    RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                     request.setAttribute("message", registrationResult);
                     rd.forward(request, response);
                 } else {
@@ -135,8 +136,6 @@ public class ControllerServlet extends HttpServlet {
                     session.setAttribute("registrationForm", form);
                     response.sendRedirect("index.jsp");
                 }
-                
-            } else {
                 
             }
         } catch(Exception e) {

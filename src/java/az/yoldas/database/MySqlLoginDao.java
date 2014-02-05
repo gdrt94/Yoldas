@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.yoldas.database;
+package az.yoldas.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.sql.DataSource;
-import net.yoldas.domain.User;
+import az.yoldas.domain.User;
 
 /**
  *
@@ -39,6 +39,7 @@ public class MySqlLoginDao implements LoginDao {
             rs = ps.executeQuery();
             if(rs.next()) {
                 user = new User();
+                user.setUsername(username);
                 user.setId(rs.getLong("id"));
                 user.setName(rs.getString("name"));
                 user.setSurname(rs.getString("surname"));

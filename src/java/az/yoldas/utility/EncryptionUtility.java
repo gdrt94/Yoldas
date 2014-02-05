@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.yoldas.utility;
+package az.yoldas.utility;
 
 import java.security.*;
 

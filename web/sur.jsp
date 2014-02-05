@@ -3,28 +3,24 @@
     Created on : 04.01.2014, 15:21:12
     Author     : Gudrat
 --%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="includes/header.jsp" %>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Place Autocomplete</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
     <style>
-      html {
+    /*  html {
         height: 100%;
         padding-left: 50px
       }
-      
+      */
       #map-canvas {
         height: 100%;
       }
-      
+      /*
       body {
         height: 100%;
         margin: 0px;
         padding: 0px  
-      }
+      }*/
       .controls {
         margin-top: 16px;
         border: 1px solid transparent;
@@ -47,7 +43,7 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       }
 
-      #pac-input, #pac-input2, #pac-input3, #pac-input4 {
+      #pac-input, #pac-input2, #pac-input3, #pac-input4, #pac-input5, #pac-input6, #pac-input7 {
         background-color: #fff;
         padding: 0 11px 0 13px;
         width: 400px;
@@ -57,7 +53,7 @@
         text-overflow: ellipsis;
       }
 
-      #pac-input:focus, #pac-input2:focus, #pac-input3:focus, #pac-input4:focus {
+      #pac-input:focus, #pac-input2:focus, #pac-input3:focus, #pac-input4:focus, #pac-input5:focus, #pac-input6:focus, #pac-input7:focus {
         border-color: #4d90fe;
         margin-left: -1px;
         padding-left: 14px;  /* Regular padding-left + 1. */
@@ -79,18 +75,59 @@
         font-size: 13px;
         font-weight: 300;
       }
-
+      .styled-button-10 {
+	background:#51a351;
+	padding:8px 13px;
+	color:#fff;
+	font-family:'Helvetica Neue',sans-serif;
+	font-size:17px;
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border:1px solid #51a351
+      }
+      .styled-button-10:active {
+        background: #489248;
+        cursor: pointer;
+      }
+      .styled-button-10:hover {
+        cursor: pointer;          
+      }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 
-    <script>
+   <script>
 var map = null;
 var marker = [];
 var autocomplete = [];
+var inputs = [];
+var types = [];
+var lats = [];
+var lngs = [];
+var autocompleteOptions = {
+ componentRestrictions: {country: "az"}
+};
 
-          var autocompleteOptions = {
-           componentRestrictions: {country: "az"}
-          };
+$(document).ready(function(){
+    var count = 2;
+    $("#addInputField").click(function(){
+        count++;
+        $("#inputlar").append("<input id='pac-input" + count + "' class='controlsInput' type='text' placeholder='Yolüstü dayanacaq' /> <br />");
+        var newInput = [];
+        var newEl = document.getElementById('pac-input' + count);
+        newInput[count-1] = newEl;
+        //newInput.push(newEl);
+        setupAutocomplete(autocomplete, newInput, count-1);
+        if (count === 7) {
+            $("#addInputField").remove();
+        }
+    });
+    $("#form").submit(function() {
+        $("#lats").val(lats);
+        $("#lngs").val(lngs);
+        return true; // return false to cancel form action
+    });
+});
 
 function setupAutocomplete(autocomplete,inputs,i) {
 
@@ -120,7 +157,9 @@ function setupAutocomplete(autocomplete,inputs,i) {
             map.setCenter(place.geometry.location);
             map.setZoom(17);  // Why 17? Because it looks good.
           }
-
+          var loc = place.geometry.location;
+          lats[i] = loc.lat();
+          lngs[i] = loc.lng();
          // marker[i].setIcon(/** @type {google.maps.Icon} */({
          /*   url: place.icon,
             size: new google.maps.Size(71, 71),
@@ -128,7 +167,7 @@ function setupAutocomplete(autocomplete,inputs,i) {
             anchor: new google.maps.Point(17, 34),
             scaledSize: new google.maps.Size(35, 35)
           }));*/
-          marker[i].setPosition(place.geometry.location);
+          marker[i].setPosition(loc);
           marker[i].setVisible(true);
 
           var address = '';
@@ -146,7 +185,7 @@ function setupAutocomplete(autocomplete,inputs,i) {
     }
     function initialize() {
       var mapOptions = {
-        center: new google.maps.LatLng(40.4700, 49.9600),
+        center: new google.maps.LatLng(40.4700, 50.0000),
         zoom: 10,
         zoomControl:true,
         zoomControlOptions: {
@@ -159,11 +198,11 @@ function setupAutocomplete(autocomplete,inputs,i) {
       };
       map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
-      var types = document.getElementById('type-selector');
+      types = document.getElementById('type-selector');
       map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
 
-      var inputs = document.getElementsByClassName("controlsInput");
+      inputs = document.getElementsByClassName("controlsInput");
       for(var i = 0; i < inputs.length; i++) {  
        setupAutocomplete(autocomplete,inputs,i);
       }
@@ -185,24 +224,59 @@ function setupAutocomplete(autocomplete,inputs,i) {
 
     google.maps.event.addDomListener(window, 'load', initialize);
 
-        </script>
+</script>
   </head>
-  <body>
-    <input id="pac-input" class="controlsInput" type="text" placeholder="Enter the pickup point"><br>
-    <input id="pac-input2" class="controlsInput" type="text" placeholder="Enter your destination"><br>
-    <input id="pac-input3" class="controlsInput" type="text" placeholder="Enter your destination"><br>
-    <input id="pac-input4" class="controlsInput" type="text" placeholder="Enter your destination"><br><br>
-    
-    <div hidden="hidden" id="type-selector" class="controls">
-      <input type="radio" name="type" id="changetype-all" checked="checked">
-      <label for="changetype-all">All</label>
+  <%@include file="includes/header2.jsp" %>
 
-      <input type="radio" name="type" id="changetype-establishment">
-      <label for="changetype-establishment">Establishments</label>
+        <div class="menu">
+        <ul>
+          <li><a href="<c:url value='main.jsp' />"><span>Şəxsi kabinetim</span></a></li>
+          <li><a href="<c:url value='sur.jsp' />" class="active"><span>Marşrut təklif et</span></a></li>
+          <li><a href="<c:url value='min.jsp' />"><span>Marşrut axtar</span></a></li>
+          <li><a href="<c:url value='logout' />"><span>Çıxış</span></a></li>
+        </ul>
+      </div>
+  
+  <%@include file="includes/header3.jsp" %>
+  <div class="body">       
+ <div class="FBG">
+    <div class="FBG_resize">
+        <div class="blok">
+            <table>
+                <tr>
+                    <td>
+                        <div>
+                            <div id="inputlar">
+                            <input id="pac-input" class="controlsInput" type="text" placeholder="Marşrutunuzu haradan başlayırsınız" /> <br />
+                            <input id="pac-input2" class="controlsInput" type="text" placeholder="Haraya gedirsiniz"> <br />
+                            </div>  <br />
+                            <input id="addInputField" type="button" value="Yolüstü dayanacaq əlavə et" class="styled-button-10"/>
+                            <form id="form" action="core" method="post">
+                                <input type="hidden" id="lats" name="lats" />
+                                <input type="hidden" id="lngs" name="lngs" />
+                                <input type="submit" class="styled-button-10" value="Yarat">
+                            </form>
+                            
+                            <div hidden="hidden" id="type-selector" class="controls">
+                              <input type="radio" name="type" id="changetype-all" checked="checked">
+                              <label for="changetype-all">All</label>
 
-      <input type="radio" name="type" id="changetype-geocode">
-      <label for="changetype-geocode">Geocodes</label>
+                              <input type="radio" name="type" id="changetype-establishment">
+                              <label for="changetype-establishment">Establishments</label>
+
+                              <input type="radio" name="type" id="changetype-geocode">
+                              <label for="changetype-geocode">Geocodes</label>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="map-canvas" style="width:540px;height:380px;"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>  
     </div>
-    <div id="map-canvas" style="width:600px;height:380px;"></div>
-  </body>
-</html>
+ </div>
+  </div>
+    
+<%@include file="includes/footer.jsp" %>

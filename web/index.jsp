@@ -3,23 +3,9 @@
     Created on : 26.01.2014, 19:53:11
     Author     : Gudrat
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<title>YolDaş</title>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-<meta charset="utf-8">
-<link rel="shortcut icon" href="images/favicon.ico" />
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/cufon-yui.js"></script>
-<script type="text/javascript" src="js/arial.js"></script>
-<script type="text/javascript" src="js/cuf_run.js"></script>
+<%@include file="includes/header.jsp" %>
 
-<%-- jquery form validation --%>
-<script type="text/javascript" src="jquery-validation-1.11.1/lib/jquery.js" charset="utf-8"></script>
 <script type="text/javascript" src="jquery-validation-1.11.1/dist/jquery.validate.js" charset="utf-8"></script>       
 <script type="text/javascript" src="jquery-validation-1.11.1/dist/additional-methods.js" charset="utf-8"></script>       
 <script type="text/javascript" charset="utf-8">
@@ -108,7 +94,7 @@ $().ready(function() {
                     username: {
                         required: true,
                         minlength: 4,
-                        maxlength: 50
+                        maxlength: 30
                     },
                     password: {
                         required: true,
@@ -118,7 +104,7 @@ $().ready(function() {
                 },
                 messages: {
                     username: {
-                        required: "İstifadəçi adı və ya emailinizi daxil edin",
+                        required: "İstifadəçi adınızı daxil edin",
                         minlength: "Belə istifadəçi mövcud deyil",
                         maxlength: "Belə istifadəçi mövcud deyil"
                     },
@@ -135,56 +121,19 @@ $().ready(function() {
 });
 </script>
 </head>
-<body>
-<div class="main">
-  <div class="header">
-    <div class="header_resize">
-        <table>
-            <tr>
-                <td>
-                    <div class="logo">
-                        <h1>
-                            <a href="index.jsp">
-                                <span>Yol</span><span id="qara">Daş</span><br />
-                                <small>Azərbaycanda İlk maşın paylaşımı saytı</small>
-                            </a>
-                        </h1>
-                    </div>
-                </td>
-                <td>
-                    <h3 align="center" style="padding-left: 20px; color:#8fc400; font:normal 13px/1.2em Arial, Helvetica, sans-serif;"><br />Eyni yol ilə gedən sürücülərlə sərnişinləri<br /> birləşdiririk!</h3>
-                </td>
-                <td>
-                    <a href="index.jsp">
-                        <img src="images/carpool.jpg" width="180" height="84" style="padding-left: 110px; padding-top: 20px"/>
-                    </a>
-                </td>
-            </tr>
-        </table>
-      <div class="clr"></div>
+<%@include file="includes/header2.jsp" %>
+
       <div class="menu">
         <ul>
-          <li><a href="index.html" class="active"><span>Ana səhifə</span></a></li>
-          <li><a href="services.html"><span>Services</span></a></li>
-          <li><a href="about.html"><span>About Us</span></a></li>
-          <li><a href="contact.html"><span>Contact Us</span></a></li>
+          <li><a href="<c:url value='index.jsp' />" class="active"><span>Ana səhifə</span></a></li>
+          <li><a href="services.html"><span>Xidmətlər</span></a></li>
+          <li><a href="about.html"><span>Haqqımızda</span></a></li>
+          <li><a href="contact.html"><span>Əlaqə</span></a></li>
         </ul>
       </div>
-  <!--    <div class="search">
-        <form id="form1" name="form1" method="post" action="#">
-          <label><span>
-            <input name="q" type="text" class="keywords" id="textfield" maxlength="50" value="Search..." />
-            </span>
-            <input name="b" type="image" src="images/search.gif" class="button" />
-          </label>
-        </form>
-      </div> -->
-      <div class="clr"></div>
-    </div>
-     <!--   <div class="headert_text_resize"> <img src="images/img_main.jpg" alt="" width="970" height="338" /> </div> -->
 
-    <div class="clr"></div>
-  </div>
+<%@include file="includes/header3.jsp" %>
+
   <div class="body">
       <link rel="stylesheet" href="login_files/formoid1/formoid-default-green.css" type="text/css" />          
 
@@ -193,6 +142,9 @@ $().ready(function() {
       <div class="loginRegister">      
           <form id="register" class="formoid-default-green" style="font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;color:#005500;max-width:480px;min-width:150px" method="post" action="cs?action=register">
             <div class="title"><h2>Qeydiyyatdan keç</h2></div>
+            <c:if test="${requestScope.message!=null}">
+                ${requestScope.message} <br />
+            </c:if>
             <c:choose>
                 <c:when test="${not empty sessionScope.registrationErrors.email}">
                     <div class="element-input"  title="Mövcud emailinizi daxil edin">
@@ -279,7 +231,10 @@ $().ready(function() {
       <div class="loginRegister">
         <form id="login" class="formoid-default-green" style="font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;color:#005500;max-width:300px;min-width:150px" method="post" action="login">
             <div class="title"><h2>Daxil ol</h2></div>
-            <div class="element-input" title="İstifadəçi adınızı və ya emailinizi daxil edin"><input class="large" type="text" name="username" placeholder="İstifadəçi adı və ya email" /></div>
+            <c:if test="${requestScope.loginMessage!=null}">
+                ${requestScope.loginMessage} <br />
+            </c:if>
+            <div class="element-input" title="İstifadəçi adınızı daxil edin"><input class="large" type="text" name="username" placeholder="İstifadəçi adı" /></div>
             <div class="element-password"  title="Şifrənizi daxil edin"><input class="large" type="password" name="password" value="" placeholder="Şifrə" /></div>
             <div class="submit"><input type="submit" value="Giriş"/></div>
         </form>
@@ -328,47 +283,4 @@ $().ready(function() {
       <div class="clr"></div>
     </div>
   </div>
-  <div class="FBG">
-    <div class="FBG_resize">
-      <div class="blok">
-        <h2><span>Image</span> Gallery</h2>
-        <img src="images/gallery_1.gif" alt="" width="68" height="68" /><img src="images/gallery_2.gif" alt="" width="68" height="68" /><img src="images/gallery_3.gif" alt="" width="68" height="68" /><img src="images/gallery_4.gif" alt="" width="68" height="68" /><img src="images/gallery_5.gif" alt="" width="68" height="68" /><img src="images/gallery_6.gif" alt="" width="68" height="68" />
-        <div class="clr"></div>
-        <h2>Contact Info </h2>
-        <p><strong>Phone</strong>: +1234567<br />
-          <strong>Address</strong>: 123 Put Your Address Here <br />
-          <strong>E-mail:</strong> me@jungleland.com<br />
-          <a href="#">contact page</a></p>
-      </div>
-      <div class="blok">
-        <h2><span>Lorem</span> Ipsum</h2>
-        <p>Lorem ipsum dolor Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu posuere nunc justo tempus leo. <br />
-          Donec mattis, purus nec placerat bibendum, dui pede condimentum odio, ac blandit ante orci ut diam.</p>
-        <ul>
-          <li><a href="#">• consequat molestie</a></li>
-          <li><a href="#">• sem justo</a></li>
-          <li><a href="#">• semper</a></li>
-          <li><a href="#">• magna sed purus</a></li>
-        </ul>
-      </div>
-      <div class="blok">
-        <h2>Lorem Ipsum</h2>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu posuere nunc justo tempus leo. llorem, eu posuere nunc justo tempus leo. Donec mattis, purus nec placerat bibendum, dui pede condimentum odio, ac blandit ante orci ut diam.</p>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. Cras id urna. <a href="#">Learn more...</a></p>
-        <p><br />
-        </p>
-      </div>
-      <div class="clr"></div>
-    </div>
-  </div>
-  <div class="footer">
-    <div class="footer_resize">
-      <p class="lf">&copy; Copyright <a href="#">MyWebSite</a>.</p>
-      <p class="rf">Layout by Hot <a href="http://www.hotwebsitetemplates.net/">Website Templates</a></p>
-      <div class="clr"></div>
-    </div>
-    <div class="clr"></div>
-  </div>
-</div>
-</body>
-</html>
+<%@include file="includes/footer.jsp" %>

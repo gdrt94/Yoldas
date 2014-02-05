@@ -1,29 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>az.yoldas.security.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <servlet-name>CoreServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <servlet-name>LogoutServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/sur.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/min.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/main.jsp</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>net.yoldas.web.LoginServlet</servlet-class>
+        <servlet-class>az.yoldas.web.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ControllerServlet</servlet-name>
-        <servlet-class>net.yoldas.web.ControllerServlet</servlet-class>
+        <servlet-class>az.yoldas.web.ControllerServlet</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>CoreServlet</servlet-name>
+        <servlet-class>az.yoldas.web.CoreServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>az.yoldas.security.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/cs</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>CoreServlet</servlet-name>
+        <url-pattern>/core</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

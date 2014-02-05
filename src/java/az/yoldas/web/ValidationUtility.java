@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.yoldas.web;
+package az.yoldas.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.yoldas.domain.RegistrationForm;
+import az.yoldas.domain.RegistrationForm;
 import org.apache.commons.validator.GenericValidator;
 
 /**
